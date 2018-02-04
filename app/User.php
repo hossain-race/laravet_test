@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Product;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Backpack\Base\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
@@ -38,6 +39,10 @@ class User extends Authenticatable
      * @param  string  $token
      * @return void
      */
+
+    public function Product(){
+        return $this->belongsToMany(Product::class);
+    }
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));

@@ -12,14 +12,14 @@ return [
     */
 
     // Project name. Shown in the breadcrumbs and a few other places.
-    'project_name' => 'Laravel Admin',
+    'project_name' => 'Booston Time',
 
     // Menu logos
-    'logo_lg'   => '<b>Laravel</b>Admin',
-    'logo_mini' => '<b>L</b>A',
+    'logo_lg'   => '<b>Booston</b> Time',
+    'logo_mini' => '<b>B</b>p',
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'Md. Enayet Ullah',
+    'developer_name' => 'M. Enayet Ullah',
 
     // Developer website. Link in footer.
     'developer_link' => 'https://www.linkedin.com/in/enayet/',
@@ -41,14 +41,13 @@ return [
     | Registration Open
     |--------------------------------------------------------------------------
     |
-    | Choose whether new users/admins are allowed to register.
+    | Choose whether new users are allowed to register.
     | This will show up the Register button in the menu and allow access to the
     | Register functions in AuthController.
     |
-    | By default the registration is open only on localhost.
     */
 
-    'registration_open' => env('BACKPACK_REGISTRATION_OPEN', env('APP_ENV') === 'local'),
+    'registration_open' => (env('APP_ENV') == 'local') ? true : false,
 
     /*
     |--------------------------------------------------------------------------
@@ -57,7 +56,6 @@ return [
     */
 
     // The prefix used in all base routes (the 'admin' in admin/dashboard)
-    // You can make sure all your URLs use this prefix by using the backpack_url() helper instead of url()
     'route_prefix' => 'admin',
 
     // Set this to false if you would like to use your own AuthController and PasswordController
@@ -68,10 +66,6 @@ return [
     // (you then need to overwrite the login route on your AuthController)
     'setup_dashboard_routes' => true,
 
-    // Set this to false if you would like to skip adding "my account" routes
-    // (you then need to manually define the routes in your web.php)
-    'setup_my_account_routes' => true,
-
     /*
     |--------------------------------------------------------------------------
     | User Model
@@ -81,21 +75,14 @@ return [
     // Fully qualified namespace of the User model
     'user_model_fqn' => '\App\User',
 
-    // What kind of avatar will you like to show to the user?
-    // Default: gravatar (automatically use the gravatar for his email)
-    // Other options:
-    // - placehold (generic image with his first letter)
-    // - example_method_name (specify the method on the User model that returns the URL)
-    'avatar_type' => 'gravatar',
-
     /*
     |--------------------------------------------------------------------------
     | License Code
     |--------------------------------------------------------------------------
     |
     | If you, your employer or your client make money by using Backpack, you need
-    | to purchase a license code. A license code will be provided after purchase,
-    | which you can put here or in your ENV file.
+    | to purchase a license code. A license code will be provided after purchse,
+    | which you can put here on in your ENV file.
     |
     | More info and payment form on:
     | https://www.backpackforlaravel.com

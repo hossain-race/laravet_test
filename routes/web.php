@@ -16,4 +16,15 @@ Route::get('/', function () {
 });
 
 
+// Admin Interface Routes
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'namespace' => 'Admin'], function () {
+    // Backpack\CRUD: Define the resources for the entities you want to CRUD.
+    CRUD::resource('product', 'ProductCrudController');
+    CRUD::resource('hijackercheck', 'ProductHijackCrudController');
+//    CRUD::resource('complain', 'ComplainCrudController');
+//    CRUD::resource('customer', 'UserCrudController');
+//    CRUD::resource('log', 'LogCrudController');
+
+});
+
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

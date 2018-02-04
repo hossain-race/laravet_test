@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,8 +28,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/backpack/pnotify/pnotify.custom.min.css') }}">
 
     <!-- BackPack Base CSS -->
-    <link rel="stylesheet" href="{{ asset('vendor/backpack/backpack.base.css') }}?v=2">
-    <link rel="stylesheet" href="{{ asset('vendor/backpack/overlays/backpack.bold.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/backpack/backpack.base.css') }}">
 
     @yield('after_styles')
 
@@ -110,9 +109,9 @@
 
     @yield('before_scripts')
 
-    <!-- jQuery 2.2.3 -->
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-    <script>window.jQuery || document.write('<script src="{{ asset('vendor/adminlte') }}/plugins/jQuery/jQuery-2.2.3.min.js"><\/script>')</script>
+    <!-- jQuery 2.2.0 -->
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{{ asset('vendor/adminlte') }}/plugins/jQuery/jQuery-2.2.0.min.js"><\/script>')</script>
     <!-- Bootstrap 3.3.5 -->
     <script src="{{ asset('vendor/adminlte') }}/bootstrap/js/bootstrap.min.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/plugins/pace/pace.min.js"></script>
@@ -170,6 +169,6 @@
     @yield('after_scripts')
 
     <!-- JavaScripts -->
-    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
+    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>
