@@ -100,6 +100,7 @@ class ProductCrudController extends CrudController
         // $this->crud->addClause('withoutGlobalScope', VisibleScope::class);
         // $this->crud->with(); // eager load relationships
         // $this->crud->orderBy();
+        $this->crud->orderBy('created_at','desc');
         // $this->crud->groupBy();
         // $this->crud->limit();
     }
