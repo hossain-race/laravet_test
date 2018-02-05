@@ -48,6 +48,15 @@
               </span>
             </a>
           </li>
+          <li>
+            <a href="{{ url('refreshhijackercheck') }}">
+              <i class="fa fa-warning"></i>
+              <span>
+                            Refresh Hijacker List
+              </span>
+
+            </a>
+          </li>
           <!-- ================================================ -->
           <!-- ==== Recommended place for admin menu items ==== -->
           <!-- ================================================ -->

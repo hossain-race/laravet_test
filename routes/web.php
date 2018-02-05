@@ -26,5 +26,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'namespace' => 'Admi
 //    CRUD::resource('log', 'LogCrudController');
 
 });
-
+Route::get('refreshhijackercheck', 'HijackerController@refreshHijackerCheck');
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

@@ -70,22 +70,19 @@ function getChartData($numberOfDays)
 function amwsWithHijackData()
 {
         try {
-        // Optionally check if the supplied credentials are valid
-            $client = amwsAuthentication();
+        $client = amwsAuthentication();
         if ($client->validateCredentials()) {
-//                $reportId = $client->RequestReport('_GET_FLAT_FILE_OPEN_LISTINGS_DATA_');
-//                // Wait a couple of minutes and get it's content
-//                $report_content = $client->GetReport($reportId);
             $searchField = \App\Models\Product::select('asin')->pluck('asin')->toArray();; // Can be GCID, SellerSKU, UPC, EAN, ISBN, or JAN
             $mwesDatas = $client->GetLowestOfferListingsForASIN($searchField, 'new');
             $asinWiseArray = array();
             if (count($mwesDatas) > 0){
                 foreach ($mwesDatas as $key => $value){
-                    $asinWiseArray[$key] = count($value);
+                    if (array_key_exists('Qualifiers', $value) ){
+                        $asinWiseArray[$key] = 1;
+                    }else
+                        $asinWiseArray[$key] = count($value);
                 }
             }
-//            dd($asinWiseArray);
-//            $parts['content'] = count($mwesDatas['B01BSRPZ3A']) ;
             return $asinWiseArray;
         } else {
             $parts['content'] = 'Invalid Authentication!!!';
