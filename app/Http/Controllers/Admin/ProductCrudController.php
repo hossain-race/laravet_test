@@ -109,7 +109,7 @@ class ProductCrudController extends CrudController
         // your additional operations before save here
         try {
             $asinWithData = amwsWithNameData($request->get('asin'));
-            if ($asinWithData)
+            if ($asinWithData){}
                 $request->merge($asinWithData);
     //        echo "<td><a onClick=\"javascript: return confirm('Please confirm deletion');\" href='#'>x</a></td><tr>";
 //            dd($request);

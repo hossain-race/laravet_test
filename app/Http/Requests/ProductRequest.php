@@ -25,7 +25,7 @@ class ProductRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function rules()
     {
         return [
-             'asin' => 'required|min:5|max:255'
+             'asin' => 'required|min:5|max:255|unique:products'
         ];
     }
 
