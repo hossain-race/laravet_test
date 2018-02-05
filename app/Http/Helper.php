@@ -110,7 +110,10 @@ function amwsWithNameData($asin)
                     if (array_key_exists($asin, $result['found']) ){
                         $asinWithData['name'] = $result['found'][$asin]['Title'];
                         if (count($mwesDatas) > 0){
-                            $asinWithData['selling_qty'] = count($mwesDatas[$asin]);
+                            if (array_key_exists('Qualifiers', $mwesDatas[$asin]) ){
+                                $asinWithData['selling_qty'] = 1;
+                            }else
+                                $asinWithData['selling_qty'] = count($mwesDatas[$asin]);
                         }else
                             $asinWithData['selling_qty'] = 1;
                         return $asinWithData;
