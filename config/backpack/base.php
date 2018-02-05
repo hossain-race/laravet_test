@@ -19,7 +19,7 @@ return [
     'logo_mini' => '<b>B</b>p',
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'M. Enayet Ullah',
+    'developer_name' => 'Md. Enayet Ullah',
 
     // Developer website. Link in footer.
     'developer_link' => 'https://www.linkedin.com/in/enayet/',

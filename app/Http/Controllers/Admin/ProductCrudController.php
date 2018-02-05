@@ -30,12 +30,12 @@ class ProductCrudController extends CrudController
         */
 
         $this->crud->setFromDb();
-        $this->crud->removeColumns(['selling_qty','sku']); // remove an array of columns from the stack
+        $this->crud->removeColumns(['price','quantity','selling_qty','sku']); // remove an array of columns from the stack
 
 
         // ------ CRUD FIELDS
 //         $this->crud->addField('user_id', 'update/create/both');
-        // $this->crud->addFields($array_of_arrays, 'update/create/both');
+         $this->crud->removeFields(['name','price','quantity','selling_qty','sku'], 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 
@@ -56,7 +56,7 @@ class ProductCrudController extends CrudController
         // $this->crud->removeButtonFromStack($name, $stack);
         // $this->crud->removeAllButtons();
         // $this->crud->removeAllButtonsFromStack('line');
-
+        $this->crud->removeButton('update');
         // ------ CRUD ACCESS
         $this->crud->allowAccess(allowPermissions());
         $this->crud->denyAccess(denyPermissions());
@@ -107,13 +107,25 @@ class ProductCrudController extends CrudController
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-//         use $this->data['entry'] or $this->crud->entry
-        DB::table('user_products')->insert(
-            ['user_id' => \Auth::id(), 'product_id' => $this->data['entry']->id]
-        );
-        return $redirect_location;
+        try {
+            $asinWithData = amwsWithNameData($request->get('asin'));
+            if ($asinWithData)
+                $request->merge($asinWithData);
+    //        echo "<td><a onClick=\"javascript: return confirm('Please confirm deletion');\" href='#'>x</a></td><tr>";
+//            dd($request);
+
+            $redirect_location = parent::storeCrud($request);
+            // your additional operations after save here
+    //         use $this->data['entry'] or $this->crud->entry
+            DB::table('user_products')->insert(
+                ['user_id' => \Auth::id(), 'product_id' => $this->data['entry']->id]
+            );
+            return $redirect_location;
+        } catch (ClientException $exception) {
+            $responseBody = $exception->getResponse()->getBody(true)->getContents();
+            $response = json_decode($responseBody);
+            return new JsonResponse((array)$response, 200, []);
+        }
     }
 
     public function update(UpdateRequest $request)

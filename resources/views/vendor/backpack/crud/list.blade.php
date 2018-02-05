@@ -59,7 +59,9 @@
               @if (!$crud->ajaxTable())
                 @foreach ($entries as $k => $entry)
                     @if ($entry->selling_qty>1 && $crud->route == 'admin/hijackercheck')
-                        <tr style="font-weight: bold;" data-entry-id="{{ $entry->getKey() }}">
+                        <tr style="font-weight: bold;background-color: mistyrose" data-entry-id="{{ $entry->getKey() }}">
+                    @elseif ($entry->selling_qty==1 && $crud->route == 'admin/hijackercheck')
+                        <tr style="background-color:palegreen" data-entry-id="{{ $entry->getKey() }}">
                     @else
                         <tr data-entry-id="{{ $entry->getKey() }}">
                     @endif

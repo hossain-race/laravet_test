@@ -20,27 +20,32 @@
 
           <li>
             <a href="{{ url('admin/product') }}">
-              <i class="fa fa-lightbulb-o"></i>
+              <i class="fa fa-amazon"></i>
 
               <span>
                             Product List
-                        </span>
+              </span>
               <span class="pull-right-container">
 
                 @if(\App\Models\Product::count()>0)
                   <small class="label pull-right bg-blue">{{\App\Models\Product::count()}}</small>
                 @endif
-                        </span>
+              </span>
 
             </a>
           </li>
           <li>
             <a href="{{ url('admin/hijackercheck') }}">
-              <i class="fa fa-commenting-o"></i>
+              <i class="fa fa-warning"></i>
               <span>
                             Hijacker Check
               </span>
+              <span class="pull-right-container">
 
+                @if(\App\Models\Product::where('selling_qty','>',1)->count()>0)
+                  <small class="label pull-right bg-red">{{\App\Models\Product::where('selling_qty','>',1)->count()}}</small>
+                @endif
+              </span>
             </a>
           </li>
           <!-- ================================================ -->
