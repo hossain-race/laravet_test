@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Product;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
@@ -29,13 +30,20 @@ class ProductCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
+        $this->crud->addFields([
+            [
+                'name'         =>'asin',
+                'label'        => 'Asin ( For Bulk Add input as asin1,asin2, ... , asinN )'
+            ]
+        ], 'update/create/both');
+
         $this->crud->setFromDb();
-        $this->crud->removeColumns(['price','quantity','selling_qty','sku']); // remove an array of columns from the stack
+        $this->crud->removeColumns(['price','quantity','selling_qty','sku','product_owner']); // remove an array of columns from the stack
 
 
         // ------ CRUD FIELDS
 //         $this->crud->addField('user_id', 'update/create/both');
-         $this->crud->removeFields(['name','price','quantity','selling_qty','sku'], 'update/create/both');
+         $this->crud->removeFields(['name','price','quantity','selling_qty','sku','product_owner'], 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 
@@ -109,18 +117,40 @@ class ProductCrudController extends CrudController
     {
         // your additional operations before save here
         try {
-            $asinWithData = amwsWithNameData($request->get('asin'));
-            if ($asinWithData){}
-                $request->merge($asinWithData);
-    //        echo "<td><a onClick=\"javascript: return confirm('Please confirm deletion');\" href='#'>x</a></td><tr>";
+            $productAsins = explode(',',$request->get('asin'));
+            foreach ($productAsins as $productAsin){
+                $DbProducts = Product::where('asin',$productAsin)->first();
+
+                if (!$DbProducts){
+                    $request->merge(['asin'=>$productAsin]);
+                    $asinWithData = amwsWithNameData($productAsin);
+                    if ($asinWithData){}
+                    $request->merge($asinWithData);
+                    //        echo "<td><a onClick=\"javascript: return confirm('Please confirm deletion');\" href='#'>x</a></td><tr>";
 //            dd($request);
 
-            $redirect_location = parent::storeCrud($request);
-            // your additional operations after save here
-    //         use $this->data['entry'] or $this->crud->entry
-            DB::table('user_products')->insert(
-                ['user_id' => \Auth::id(), 'product_id' => $this->data['entry']->id]
-            );
+                    $redirect_location = parent::storeCrud($request);
+                    // your additional operations after save here
+                    //         use $this->data['entry'] or $this->crud->entry
+                    DB::table('user_products')->insert(
+                        ['user_id' => \Auth::id(), 'product_id' => $this->data['entry']->id]
+                    );
+                }else{
+//                    dd($DbProducts->user()->orderBy('name')->get());
+                    $redirect_location = parent::performSaveAction($DbProducts->id);
+                    // your additional operations after save here
+                    //         use $this->data['entry'] or $this->crud->entry
+                    $DbUserProducts = DB::table('user_products')->where('product_id',$DbProducts->id)->where('user_id',\Auth::id())->first();
+                    if (!$DbUserProducts){
+                        DB::table('user_products')->insert(
+                            ['user_id' => \Auth::id(), 'product_id' => $DbProducts->id]
+                        );
+                    }
+
+                }
+
+            }
+
             return $redirect_location;
         } catch (ClientException $exception) {
             $responseBody = $exception->getResponse()->getBody(true)->getContents();

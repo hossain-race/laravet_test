@@ -26,6 +26,12 @@
           @include('crud::inc.button_stack', ['stack' => 'top'])
 
           <div id="datatable_button_stack" class="pull-right text-right"></div>
+
+            @if ($crud->route == 'admin/product')
+                <a href="/product/addall" class="btn btn-primary ladda-button" data-style="zoom-in">
+                    <span class="ladda-label"><i class="fa fa-plus"></i> Import All products</span>
+                </a>
+            @endif
         </div>
 
         <div class="box-body table-responsive">

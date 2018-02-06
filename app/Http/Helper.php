@@ -129,6 +129,40 @@ function amwsWithNameData($asin)
     }
 }
 
+function amwsGetReportId()
+{
+        try {
+            $client = amwsAuthentication();
+            if ($client->validateCredentials()) {
+                $reportId = $client->RequestReport('_GET_FLAT_FILE_OPEN_LISTINGS_DATA_');
+                return $reportId;
+            } else {
+                return  false;
+        }
+    } catch (ClientException $exception) {
+        $responseBody = $exception->getResponse()->getBody(true)->getContents();
+        $response = json_decode($responseBody);
+        return new JsonResponse((array)$response, 200, []);
+    }
+}
+
+function amwsGetReportContent($reportId)
+{
+        try {
+            $client = amwsAuthentication();
+            if ($client->validateCredentials()) {
+                $report_content = $client->GetReport($reportId);
+                return $report_content;
+            } else {
+                return  false;
+        }
+    } catch (ClientException $exception) {
+        $responseBody = $exception->getResponse()->getBody(true)->getContents();
+        $response = json_decode($responseBody);
+        return new JsonResponse((array)$response, 200, []);
+    }
+}
+
 function amwsAuthentication()
 {
     $client = new \MCS\MWSClient([

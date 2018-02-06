@@ -17,11 +17,11 @@ class Product extends Model
    */
 
     protected $table = 'products';
-    protected $fillable = ['name','asin','sku','price','quantity','selling_qty'];
+    protected $fillable = ['name','asin','sku','price','quantity','selling_qty','product_owner'];
 //    public $timestamps = false;
 
     public function User(){
-        return $this->belongsToMany(User::class, 'user_product');
+        return $this->belongsToMany(User::class, 'user_products');
     }
 
     //protected $table = 'products';

@@ -25,4 +25,10 @@ class HijackerController extends Controller
         return redirect('admin/hijackercheck');
     }
 
+    public function addAllProduct()
+    {
+        $reportId = amwsGetReportId();
+        return redirect('admin/product');
+    }
+
 }
