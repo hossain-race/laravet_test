@@ -16,7 +16,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-4 col-sm-8 col-xs-16">
-            <div class="small-box bg-red">
+            <div class="small-box bg-blue">
                 <div class="inner">
                     <h3>{{\App\Models\Product::count()}}</h3>
 
@@ -47,7 +47,7 @@
         <!-- /.col -->
 
         <div class="col-md-4 col-sm-8 col-xs-16">
-            <div class="small-box bg-red">
+            <div class="small-box bg-green">
                 <div class="inner">
                     <h3>{{\App\Models\Product::where('selling_qty','=',1)->count()}}</h3>
 

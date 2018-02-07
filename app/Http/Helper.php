@@ -8,8 +8,9 @@
 
 function allowPermissions()
 {
-    if (auth()->user()->hasRole('super-admin'))
-        return \Backpack\PermissionManager\app\Models\Permission::pluck('name')->toArray();
+//    if (auth()->user()->hasRole('super-admin'))
+    if (auth()->user()->roles->pluck('name')->toArray())
+        return array_merge(auth()->user()->getPermissionsViaRoles()->pluck('name')->toArray(),auth()->user()->permissions->pluck('name')->toArray());
 
     return auth()->user()->permissions->pluck('name')->toArray();
 }

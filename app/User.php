@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Backpack\Base\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
 use Backpack\CRUD\CrudTrait;
+use Backpack\PermissionManager\app\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -39,6 +40,7 @@ class User extends Authenticatable
      * @param  string  $token
      * @return void
      */
+
 
     public function Product(){
         return $this->belongsToMany(Product::class);
