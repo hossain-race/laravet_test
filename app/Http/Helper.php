@@ -73,7 +73,34 @@ function amwsWithHijackData()
         try {
         $client = amwsAuthentication();
         if ($client->validateCredentials()) {
-            $searchField = \App\Models\Product::select('asin')->pluck('asin')->toArray();; // Can be GCID, SellerSKU, UPC, EAN, ISBN, or JAN
+            $searchField = \App\Models\Product::select('asin')->pluck('asin')->toArray(); // Can be GCID, SellerSKU, UPC, EAN, ISBN, or JAN
+            $mwesDatas = $client->GetLowestOfferListingsForASIN($searchField, 'new');
+            $asinWiseArray = array();
+            if (count($mwesDatas) > 0){
+                foreach ($mwesDatas as $key => $value){
+                    if (array_key_exists('Qualifiers', $value) ){
+                        $asinWiseArray[$key] = 1;
+                    }else
+                        $asinWiseArray[$key] = count($value);
+                }
+            }
+            return $asinWiseArray;
+        } else {
+            $parts['content'] = 'Invalid Authentication!!!';
+            return new JsonResponse($parts, 200, []);
+        }
+    } catch (ClientException $exception) {
+        $responseBody = $exception->getResponse()->getBody(true)->getContents();
+        $response = json_decode($responseBody);
+        return new JsonResponse((array)$response, 200, []);
+    }
+}
+
+function amwsWithHijackDataJob($searchField)
+{
+        try {
+        $client = amwsAuthentication();
+        if ($client->validateCredentials()) {
             $mwesDatas = $client->GetLowestOfferListingsForASIN($searchField, 'new');
             $asinWiseArray = array();
             if (count($mwesDatas) > 0){

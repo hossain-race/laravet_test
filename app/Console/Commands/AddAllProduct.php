@@ -38,9 +38,33 @@ class AddAllProduct extends Command
      */
     public function handle()
     {
-        $reportContent = amwsGetReportContent(125785017568);
-        if ( count($reportContent)>0 ){
+        $reportIds = \App\Models\ReportId::select('report_id')->where('status', 0)->pluck('report_id')->toArray();
+        if (count($reportIds)>0){
+            foreach ($reportIds as $reportId){
+                $reportContents = amwsGetReportContent((int)$reportId);
+                if ( count($reportContents)>0 ){
+
+                    foreach ($reportContents as $reportContent){
+                        $productAsin[] = $reportContent['asin'];
+
+                        if (count($productAsin)==5){
+                            $products = amwsWithHijackDataJob($productAsin);
+                            $productAsin = array();
+                            foreach ($products as $key => $value){
+                                DB::table('products')
+                                    ->where('asin', $key)
+                                    ->update(['selling_qty' => $value]);
+                            }
+                        }
+                    }
+                }
+                DB::table('user_reports')
+                    ->where('report_id', $reportId)
+                    ->update(['status' => 1]);
+
+            }
 
         }
+
     }
 }
