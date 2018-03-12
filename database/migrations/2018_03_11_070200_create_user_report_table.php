@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UserReport extends Migration
+class CreateUserReportTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,6 +17,7 @@ class UserReport extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id')->unsigned()->index();
             $table->string('report_id')->unsigned()->index();
+            $table->integer('status')->unsigned()->index();
             $table->timestamps();
         });
     }
