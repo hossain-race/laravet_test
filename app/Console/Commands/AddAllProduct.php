@@ -53,24 +53,24 @@ class AddAllProduct extends Command
                         $DbProducts = \App\Models\Product::where('asin',$asinNo)->first();
 
                         if (!$DbProducts){
-                            $productAsin->merge(['asin'=>$asinNo]);
+
                             $asinWithData = amwsWithNameData($asinNo);
                             if ($asinWithData){}
-                            $productAsin->merge($asinWithData);
+                            $productAsin = $asinWithData;
+                            $productAsin['asin'] = $asinNo;
 
-
-                            $newId = DB::table('user_products')->insertGetId(
+                            $newId = DB::table('products')->insertGetId(
                                 $productAsin
                             );
 
                             DB::table('user_products')->insert(
-                                ['user_id' => Auth::id(), 'product_id' => $newId]
+                                ['user_id' => 1, 'product_id' => $newId]
                             );
                         }else{
-                            $DbUserProducts = DB::table('user_products')->where('product_id',$DbProducts->id)->where('user_id',Auth::id())->first();
+                            $DbUserProducts = DB::table('user_products')->where('product_id',$DbProducts->id)->where('user_id',1)->first();
                             if (!$DbUserProducts){
                                 DB::table('user_products')->insert(
-                                    ['user_id' => Auth::id(), 'product_id' => $DbProducts->id]
+                                    ['user_id' => 1, 'product_id' => $DbProducts->id]
                                 );
                             }
 
