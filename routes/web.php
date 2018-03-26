@@ -28,4 +28,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'namespace' => 'Admi
 });
 Route::get('refreshhijackercheck', 'HijackerController@refreshHijackerCheck');
 Route::get('product/addall', 'HijackerController@addAllProduct');
+Route::get('product/add', 'HijackerController@addProduct');
+Route::post('product/save', 'HijackerController@saveProduct');
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

@@ -28,6 +28,9 @@
           <div id="datatable_button_stack" class="pull-right text-right"></div>
 
             @if ($crud->route == 'admin/product')
+                <a href="/product/add" class="btn btn-primary ladda-button" data-style="zoom-in">
+                    <span class="ladda-label"><i class="fa fa-plus"></i> Add products</span>
+                </a>
                 <a href="/product/addall" class="btn btn-primary ladda-button" data-style="zoom-in">
                     <span class="ladda-label"><i class="fa fa-plus"></i> Import All products</span>
                 </a>
