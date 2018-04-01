@@ -49,14 +49,23 @@ class HijackerController extends Controller
         try {
             $productAsins = explode(',', $request->get('asin'));
             $productValidity = array();
+
             $product = array();
             foreach ($productAsins as $productAsin){
+                $productData= array();
                 if ( $this->isAsin($productAsin) )
                     $product[] = trim($productAsin);
+                else{
+                    $productData['asin'] = $productAsin;
+                    $productData['status'] = 0;
+                    $productData['data'] = "Invalid ASIN";
+                    $productValidity[] = $productData;
+                }
             }
             // dd($product);
 
             foreach ($product as $productAsin){
+                $productData= array();
                 $DbProducts = Product::where('asin',$productAsin)->first();
 
                 if (!$DbProducts){
@@ -68,7 +77,7 @@ class HijackerController extends Controller
                         // echo "<td><a onClick=\"javascript: return confirm('Please confirm deletion');\" href='#'>x</a></td><tr>";
                         // dd($request);
 
-                        $redirect_location = '/admin/product';
+//                        $redirect_location = '/admin/product';
                         // your additional operations after save here
                         //         use $this->data['entry'] or $this->crud->entry
 //                    $product = DB::table('products')->insert(
@@ -79,14 +88,28 @@ class HijackerController extends Controller
                         $newProduct->name = $asinWithData['name'];
                         $newProduct->selling_qty = $asinWithData['selling_qty'];
                         $newProduct->save();
+
+                        $productData['asin'] = $productAsin;
+                        $productData['status'] = 1;
+                        $productData['data'] = $newProduct;
+                        $productValidity[] = $productData;
 //                    dd($newProduct);
                         DB::table('user_products')->insert(
                             ['user_id' => \Auth::id(), 'product_id' => $newProduct->id]
                         );
+                    }else{
+                        $productData['asin'] = $productAsin;
+                        $productData['status'] = 0;
+                        $productData['data'] = "Not Found at Amazon";
+                        $productValidity[] = $productData;
                     }
                 } else {
+                    $productData['asin'] = $productAsin;
+                    $productData['status'] = 2;
+                    $productData['data'] = "Previously Added to System";
+                    $productValidity[] = $productData;
                     // dd($DbProducts->user()->orderBy('name')->get());
-                    $redirect_location = '/admin/product';
+//                    $redirect_location = '/admin/product';
                     // your additional operations after save here
                     //         use $this->data['entry'] or $this->crud->entry
                     $DbUserProducts = DB::table('user_products')->where('product_id',$DbProducts->id)->where('user_id',\Auth::id())->first();
@@ -98,7 +121,7 @@ class HijackerController extends Controller
                 }
 
             }
-            return redirect($redirect_location);
+            return view('addedProductReport')->with('products', $productValidity);
         } catch(ClientException $exception) {
             $responseBody = $exception->getResponse()->getBody(true)->getContents();
             $response = json_decode($responseBody);
