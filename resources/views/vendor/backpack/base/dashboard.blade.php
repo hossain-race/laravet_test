@@ -18,7 +18,9 @@
         <div class="col-md-4 col-sm-8 col-xs-16">
             <div class="small-box bg-blue">
                 <div class="inner">
-                    <h3>{{\App\Models\Product::count()}}</h3>
+                    <h3>{{\App\Models\Product::whereHas('User', function($query) {
+                             $query->where('user_id',\Auth::id());
+                         })->count()}}</h3>
 
                     <p>Total Products</p>
                 </div>
@@ -33,7 +35,9 @@
         <div class="col-md-4 col-sm-8 col-xs-16">
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>{{\App\Models\Product::where('selling_qty','>',1)->count()}}</h3>
+                    <h3>{{\App\Models\Product::where('selling_qty','>',1)->whereHas('User', function($query) {
+                             $query->where('user_id',\Auth::id());
+                         })->count()}}</h3>
 
                     <p>Total Hijaced Products</p>
                 </div>
@@ -49,7 +53,9 @@
         <div class="col-md-4 col-sm-8 col-xs-16">
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>{{\App\Models\Product::where('selling_qty','=',1)->count()}}</h3>
+                    <h3>{{\App\Models\Product::where('selling_qty','=',1)->whereHas('User', function($query) {
+                             $query->where('user_id',\Auth::id());
+                         })->count()}}</h3>
 
                     <p>Total Safe Products</p>
                 </div>

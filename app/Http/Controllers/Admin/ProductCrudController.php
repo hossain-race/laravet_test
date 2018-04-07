@@ -102,16 +102,16 @@ class ProductCrudController extends CrudController
         // $this->crud->addClause('type', 'car');
         // $this->crud->addClause('where', 'name', '==', 'car');
         // $this->crud->addClause('whereName', 'car');
-        // $this->crud->addClause('whereHas', 'posts', function($query) {
-        //     $query->activePosts();
-        // });
+         $this->crud->addClause('whereHas', 'User', function($query) {
+             $query->where('user_id',\Auth::id());
+         });
         // $this->crud->addClause('withoutGlobalScopes');
         // $this->crud->addClause('withoutGlobalScope', VisibleScope::class);
         // $this->crud->with(); // eager load relationships
         // $this->crud->orderBy();
 //        $this->crud->orderBy('created_at','desc');
         // $this->crud->groupBy();
-        // $this->crud->limit();
+         $this->crud->limit(100);
     }
 
     public function store(StoreRequest $request)

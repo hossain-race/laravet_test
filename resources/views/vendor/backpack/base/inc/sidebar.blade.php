@@ -27,8 +27,12 @@
               </span>
               <span class="pull-right-container">
 
-                @if(\App\Models\Product::count()>0)
-                  <small class="label pull-right bg-blue">{{\App\Models\Product::count()}}</small>
+                @if(\App\Models\Product::whereHas('User', function($query) {
+                             $query->where('user_id',\Auth::id());
+                         })->count()>0)
+                  <small class="label pull-right bg-blue">{{\App\Models\Product::whereHas('User', function($query) {
+                             $query->where('user_id',\Auth::id());
+                         })->count()}}</small>
                 @endif
               </span>
 
@@ -42,8 +46,12 @@
               </span>
               <span class="pull-right-container">
 
-                @if(\App\Models\Product::where('selling_qty','>',1)->count()>0)
-                  <small class="label pull-right bg-red">{{\App\Models\Product::where('selling_qty','>',1)->count()}}</small>
+                @if(\App\Models\Product::where('selling_qty','>',1)->whereHas('User', function($query) {
+                             $query->where('user_id',\Auth::id());
+                         })->count()>0)
+                  <small class="label pull-right bg-red">{{\App\Models\Product::where('selling_qty','>',1)->whereHas('User', function($query) {
+                             $query->where('user_id',\Auth::id());
+                         })->count()}}</small>
                 @endif
               </span>
             </a>
