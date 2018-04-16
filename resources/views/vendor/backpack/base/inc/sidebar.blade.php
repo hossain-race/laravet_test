@@ -56,15 +56,17 @@
               </span>
             </a>
           </li>
-          <li>
-            <a href="{{ url('refreshhijackercheck') }}">
-              <i class="fa fa-warning"></i>
-              <span>
-                            Refresh Hijacker List
-              </span>
+          @if (Auth::user()->hasRole('super-admin'))
+            <li>
+              <a href="{{ url('refreshhijackercheck') }}">
+                <i class="fa fa-warning"></i>
+                <span>
+                              Refresh Hijacker List
+                </span>
 
-            </a>
-          </li>
+              </a>
+            </li>
+          @endif
           <!-- ================================================ -->
           <!-- ==== Recommended place for admin menu items ==== -->
           <!-- ================================================ -->

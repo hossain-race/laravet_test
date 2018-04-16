@@ -31,7 +31,7 @@
                 <a href="/product/add" class="btn btn-primary ladda-button" data-style="zoom-in">
                     <span class="ladda-label"><i class="fa fa-plus"></i> Add products</span>
                 </a>
-                <a href="/product/addall" class="btn btn-primary ladda-button" data-style="zoom-in">
+                <a href="/product/addall" class="btn btn-primary ladda-button" data-style="zoom-in" disabled="true">
                     <span class="ladda-label"><i class="fa fa-plus"></i> Import All products</span>
                 </a>
             @endif

@@ -12,10 +12,10 @@ return [
     */
 
     // Project name. Shown in the breadcrumbs and a few other places.
-    'project_name' => 'Booston Time',
+    'project_name' => 'Booston Amazon',
 
     // Menu logos
-    'logo_lg'   => '<b>Booston</b> Time',
+    'logo_lg'   => '<b>Booston</b> Amazon',
     'logo_mini' => '<b>B</b>p',
 
     // Developer or company name. Shown in footer.
