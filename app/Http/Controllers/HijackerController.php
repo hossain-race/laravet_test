@@ -38,6 +38,23 @@ class HijackerController extends Controller
         return redirect('admin/product');
     }
 
+   public function deleteProduct($id)
+    {
+        $DbProducts = MonitorProduct::where('id',$id)->first();
+        if ($DbProducts){
+            DB::table('user_products')
+                ->where('user_id', \Auth::id())
+                ->where('product_id', $id)
+                ->delete();
+            $isExistingUserWithIt = DB::table('user_products')
+                ->where('product_id', $id)
+                ->first();
+            if (!$isExistingUserWithIt)
+                $DbProducts->delete();
+        }
+        return true;
+    }
+
     public function addProduct()
     {
         return view('addProduct');

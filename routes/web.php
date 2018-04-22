@@ -30,4 +30,5 @@ Route::get('refreshhijackercheck', 'HijackerController@refreshHijackerCheck');
 Route::get('product/addall', 'HijackerController@addAllProduct');
 Route::get('product/add', 'HijackerController@addProduct');
 Route::post('product/save', 'HijackerController@saveProduct');
+Route::post('admin/product/delete/{id}', 'HijackerController@deleteProduct');
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
