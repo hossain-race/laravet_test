@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\User;
-use App\Models\MonitorProduct;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class Product extends Model
+class MonitorProduct extends Model
 {
     use CrudTrait;
 
@@ -17,16 +16,12 @@ class Product extends Model
    |--------------------------------------------------------------------------
    */
 
-    protected $table = 'products';
-    protected $fillable = ['name','asin','sku','price','quantity','selling_qty','product_owner'];
+    protected $table = 'monitor_products';
+    protected $fillable = ['product_id','name','asin','sku','price','quantity','selling_qty','product_owner','status'];
 //    public $timestamps = false;
 
-    public function User(){
-        return $this->belongsToMany(User::class, 'user_products');
-    }
-
-    public function MonitorProduct(){
-        return $this->hasOne(MonitorProduct::class);
+    public function Product(){
+        return $this->hasOne(Product::class);
     }
 
     //protected $table = 'products';

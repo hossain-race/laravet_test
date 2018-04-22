@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MonitorProduct;
 use App\Models\Product;
 use App\Models\ReportId;
 use Illuminate\Http\Request;
@@ -88,6 +89,17 @@ class HijackerController extends Controller
                         $newProduct->name = $asinWithData['name'];
                         $newProduct->selling_qty = $asinWithData['selling_qty'];
                         $newProduct->save();
+
+                        $newMonitorProduct = new MonitorProduct();
+                        $newMonitorProduct->asin = $productAsin;
+                        $newMonitorProduct->name = $asinWithData['name'];
+                        $newMonitorProduct->selling_qty = $asinWithData['selling_qty'];
+                        $newMonitorProduct->product_id = $newProduct->id;
+                        if ($asinWithData['selling_qty'] > 1)
+                            $newMonitorProduct->status = 1;
+                        else
+                            $newMonitorProduct->status = 0;
+                        $newMonitorProduct->save();
 
                         $productData['asin'] = $productAsin;
                         $productData['status'] = 1;
