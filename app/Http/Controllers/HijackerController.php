@@ -40,7 +40,7 @@ class HijackerController extends Controller
 
    public function deleteProduct($id)
     {
-        $DbProducts = MonitorProduct::where('id',$id)->first();
+        $DbProducts = MonitorProduct::where('product_id',$id)->first();
         if ($DbProducts){
             $delete = DB::table('user_products')
                 ->where('user_id', \Auth::id())
