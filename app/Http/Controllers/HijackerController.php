@@ -42,7 +42,7 @@ class HijackerController extends Controller
     {
         $DbProducts = MonitorProduct::where('id',$id)->first();
         if ($DbProducts){
-            DB::table('user_products')
+            $delete = DB::table('user_products')
                 ->where('user_id', \Auth::id())
                 ->where('product_id', $id)
                 ->delete();
@@ -52,7 +52,7 @@ class HijackerController extends Controller
             if (!$isExistingUserWithIt)
                 $DbProducts->delete();
         }
-        return true;
+        return $delete;
     }
 
     public function addProduct()
