@@ -6,7 +6,7 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class MonitorProduct extends Model
+class SellerInfo extends Model
 {
     use CrudTrait;
 
@@ -16,16 +16,12 @@ class MonitorProduct extends Model
    |--------------------------------------------------------------------------
    */
 
-    protected $table = 'monitor_products';
-    protected $fillable = ['asin','status'];
+    protected $table = 'seller_info';
+    protected $fillable = ['seller_id','name', 'link'];
 //    public $timestamps = false;
 
-    public function Product(){
-        return $this->belongsTo(Product::class,'asin','asin');
-    }
-
-    public function SellerInfo(){
-        return $this->belongsToMany(SellerInfo::class, 'seller_asin', 'asin', 'seller_id');
+    public function MonitorProduct(){
+        return $this->belongsToMany(MonitorProduct::class,'seller_asin', 'seller_id', 'asin');
     }
 
     //protected $table = 'products';

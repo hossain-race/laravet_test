@@ -16,6 +16,7 @@ class ProductHijackCrudController extends ProductCrudController
     {
         parent::setup();
 
+
         // get the user_id parameter
 
         // set a different route for the admin panel buttons

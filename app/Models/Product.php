@@ -26,7 +26,7 @@ class Product extends Model
     }
 
     public function MonitorProduct(){
-        return $this->hasOne(MonitorProduct::class);
+        return $this->hasOne(MonitorProduct::class,'asin','asin');
     }
 
     //protected $table = 'products';

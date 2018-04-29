@@ -66,6 +66,7 @@ class ProductCrudController extends CrudController
         // $this->crud->removeAllButtonsFromStack('line');
         $this->crud->removeButton('update');
         $this->crud->removeButton('create');
+        $this->crud->removeButton('delete');
         // ------ CRUD ACCESS
         $this->crud->allowAccess(allowPermissions());
         $this->crud->denyAccess(denyPermissions());

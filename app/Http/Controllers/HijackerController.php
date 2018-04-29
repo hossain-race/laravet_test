@@ -104,13 +104,13 @@ class HijackerController extends Controller
                         $newProduct = new Product();
                         $newProduct->asin = $productAsin;
                         $newProduct->name = $asinWithData['name'];
-                        $newProduct->selling_qty = $asinWithData['selling_qty'];
+//                        $newProduct->selling_qty = $asinWithData['selling_qty'];
                         $newProduct->save();
 
                         $newMonitorProduct = new MonitorProduct();
                         $newMonitorProduct->asin = $productAsin;
                         $newMonitorProduct->name = $asinWithData['name'];
-                        $newMonitorProduct->selling_qty = $asinWithData['selling_qty'];
+//                        $newMonitorProduct->selling_qty = $asinWithData['selling_qty'];
                         $newMonitorProduct->product_id = $newProduct->id;
                         if ($asinWithData['selling_qty'] > 1)
                             $newMonitorProduct->status = 1;
