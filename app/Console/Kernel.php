@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('monitor:refreshproduct')
 //            ->hourly();
-            ->cron('* */3 * * * *'); // every 6 hours
+            ->cron('* */6 * * * *'); // every 6 hours
     }
 
     /**
