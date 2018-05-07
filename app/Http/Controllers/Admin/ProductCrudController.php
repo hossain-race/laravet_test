@@ -66,7 +66,7 @@ class ProductCrudController extends CrudController
         // $this->crud->removeAllButtonsFromStack('line');
         $this->crud->removeButton('update');
         $this->crud->removeButton('create');
-        $this->crud->removeButton('delete');
+//        $this->crud->removeButton('delete');
         // ------ CRUD ACCESS
         $this->crud->allowAccess(allowPermissions());
         $this->crud->denyAccess(denyPermissions());
@@ -168,5 +168,18 @@ class ProductCrudController extends CrudController
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
+    }
+
+    public function destroy($id)
+    {
+        // your additional operations before save here
+        DB::table('user_products')->where(
+            ['user_id' => \Auth::id(), 'product_id' => $id]
+        )->delete();
+//        $redirect_location = parent::updateCrud($request);
+        // your additional operations after save here
+        // use $this->data['entry'] or $this->crud->entry
+//        return redirect('admin/product');
+//        return redirect()->to('admin/product');
     }
 }
