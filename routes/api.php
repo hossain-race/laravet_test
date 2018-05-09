@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix' => 'v1/product', 'middleware' => 'throttle'], function () {
+    Route::get('monitorasin', 'HijackerController@getMonitorAsin');
+    Route::post('asinseller', 'HijackerController@saveAsinSellerInformation');
+});

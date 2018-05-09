@@ -169,4 +169,15 @@ class HijackerController extends Controller
 
     }
 
+    public function getMonitorAsin(){
+        try {
+            $asinList = MonitorProduct::all()
+                ->pluck('asin')
+                ->toArray();
+            return response()->json(['message' => 'Here the ASIN list', 'data' => $asinList], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Internal error occur ' . $e->getMessage()], 500);
+        }
+    }
+
 }
