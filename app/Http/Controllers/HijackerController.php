@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\MonitorProduct;
 use App\Models\Product;
 use App\Models\ReportId;
+use Faker\Provider\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 class HijackerController extends Controller
 {
@@ -104,7 +107,7 @@ class HijackerController extends Controller
                         $newProduct = new Product();
                         $newProduct->asin = $productAsin;
                         $newProduct->name = $asinWithData['name'];
-//                        $newProduct->selling_qty = $asinWithData['selling_qty'];
+                        $newProduct->selling_qty = $asinWithData['selling_qty'];
                         $newProduct->save();
 
 //                        $newMonitorProduct = new MonitorProduct();
@@ -174,7 +177,49 @@ class HijackerController extends Controller
             $asinList = MonitorProduct::all()
                 ->pluck('asin')
                 ->toArray();
-            return response()->json(['message' => 'Here the ASIN list', 'data' => $asinList], 404);
+            return response()->json(['message' => 'Here the ASIN list', 'data' => $asinList], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Internal error occur ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function saveAsinSellerInformation(Request $request)
+    {
+        try {
+            $file = $request->file('seller');
+            $extension = $file->getClientOriginalExtension();
+            Storage::disk('local')->put('input.json',  \File::get($file));
+
+
+            $data = Storage::disk('local')->get('input.json');
+//            dd($data);
+//            $data = $request->file('seller');
+//            $seller = $data['data'];
+            $sellerDatas = json_decode($data)->data;
+//            dd($sellerDatas);
+            $asins = array();
+            $sellers = array();
+            foreach ($sellerDatas as $sellerData){
+                $DbSellerInfo = DB::table('seller_info')->where('seller_id',$sellerData->seller_id)->first();
+                if (!$DbSellerInfo){
+                    DB::table('seller_info')->insert(
+                        ['seller_id' => $sellerData->seller_id, 'name' => $sellerData->seller_name, 'link' => $sellerData->seller_link]
+                    );
+                    $sellers[] = $sellerData->seller_id;
+                }
+
+                $DbSellerAsin = DB::table('seller_asin')->where('seller_id',$sellerData->seller_id)->where('asin',$sellerData->asin)->first();
+                if (!$DbSellerAsin){
+                    DB::table('seller_asin')->insert(
+                        ['seller_id' => $sellerData->seller_id, 'asin' => $sellerData->asin]
+                    );
+                    $asins[] = $sellerData->asin;
+                }
+
+
+            }
+
+            return response()->json(['message' => 'Monitor process updated with seller and ASIN.', 'asins' => $asins, 'sellers' => $sellers], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Internal error occur ' . $e->getMessage()], 500);
         }

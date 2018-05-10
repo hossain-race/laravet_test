@@ -130,18 +130,18 @@ function amwsWithNameData($asin)
             if ($client->validateCredentials()) {
                 $asinWithData = array();
                 $result = $client->GetMatchingProductForId([$asin], 'ASIN');
-//                $mwesDatas = $client->GetLowestOfferListingsForASIN([$asin], 'new');
+                $mwesDatas = $client->GetLowestOfferListingsForASIN([$asin], 'new');
                 if ($result['found'])
                     if (array_key_exists($asin, $result['found']) ){
                         $asinWithData['name'] = $result['found'][$asin]['Title'];
-//                        if (count($mwesDatas) > 0){
-////                            if (array_key_exists('Qualifiers', $mwesDatas[$asin]) ){
-//                            if (isset($mwesDatas['Qualifiers']) ){
-//                                $asinWithData['selling_qty'] = 1;
-//                            }else
-//                                $asinWithData['selling_qty'] = count($mwesDatas[$asin]);
-//                        }else
-//                            $asinWithData['selling_qty'] = 1;
+                        if (count($mwesDatas) > 0){
+//                            if (array_key_exists('Qualifiers', $mwesDatas[$asin]) ){
+                            if (isset($mwesDatas['Qualifiers']) ){
+                                $asinWithData['selling_qty'] = 1;
+                            }else
+                                $asinWithData['selling_qty'] = count($mwesDatas[$asin]);
+                        }else
+                            $asinWithData['selling_qty'] = 1;
                         return $asinWithData;
                     }else
                         return false;
